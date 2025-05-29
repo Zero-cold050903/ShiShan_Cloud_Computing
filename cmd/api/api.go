@@ -1,7 +1,11 @@
 package api
 
 import (
+	"fmt"
+	"math/rand"
 	"os"
+	"github.com/Zero_cold050903/ShiShan_Cloud_Computing/config"
+	"github.com/Zero_cold050903/ShiShan_Cloud_Computing/types"
 	"github.com/gin-gonic/gin"
 )
 var router = gin.Default()
@@ -9,6 +13,22 @@ var upload = router.Group("/upload")
 var download = router.Group("/download")
 var file *gin.FileHeader
 var err error
+func distributeID() string {
+	// 生成ID
+	rand.Rand()		// 随机数种子
+	id := rand.Intn(10000000000000)
+	return string(id) 
+}
+func (q types.TaskQueue)AddTask() {
+	// 添加任务
+	q.Queue[TaskNum] = task{
+		TaskID:     distributeID(),
+		TaskName:   fmt.Fscanln(),
+		TaskType:   ,
+		TaskStatus: config.WAITING,
+		TaskFile: 
+	}
+}
 func OpenULapi() {
 	// 上传文件
 	upload.POST("/document", uploadDocument)
