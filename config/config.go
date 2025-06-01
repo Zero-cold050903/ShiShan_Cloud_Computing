@@ -9,3 +9,9 @@ const RUNNING = 1
 const STOPPED = 0
 const WAITING = -1
  
+var STATUS_CODE = map[string]int{
+	"AVAILABLE" : 1,
+	"OCCUPIED"	: -1,
+	"RUNNING"	: 0,
+}
+const POOL_SIZE = 10

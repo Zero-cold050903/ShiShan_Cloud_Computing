@@ -21,7 +21,7 @@ type Log struct {
 	LogMessage   string `json:"logmessage"`
 }
 
-func InitLog() {
+func InitLog() (string, error) {
 	homedir := os.Getenv("HOME")
 	err := os.Mkdir(homedir + "/log")
 	if err != nil {
@@ -31,8 +31,12 @@ func InitLog() {
 	currentTime := time.Now()
 	formattedTime := currentTime.Format("2006-01-02 15:04:05")
 	fmt.Println(formattedTime + " Log directory initialized\n")
+	return homedir + "/log", nil
 }
 func (l *Log) LogInfo(message string) error {
 	log.Println(message)
 	return nil
+}
+func Writer() {
+	os.NewFile(0, "InitLog")
 }
