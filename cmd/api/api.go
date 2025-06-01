@@ -21,13 +21,25 @@ func distributeID() string {
 }
 func (q types.TaskQueue)AddTask() {
 	// 添加任务
+	OpenULapi()
 	q.Queue[TaskNum] = task{
 		TaskID:     distributeID(),
 		TaskName:   fmt.Fscanln(),
-		TaskType:   ,
 		TaskStatus: config.WAITING,
-		TaskFile: 
+		TaskFile:	uploadDocument()
 	}
+	q.Comming = &q.Queue[TaskNum]
+}
+func (q types.TaskQueue) IsEmpty() {
+	// 判断队列是否为空
+	if q.Queue == nil {
+		return true
+	}
+	return false
+}
+func (q types.TaskQueue)DeleteTask(id ) {
+	// 删除任务
+	
 }
 func OpenULapi() {
 	// 上传文件
@@ -57,7 +69,7 @@ func CloseDLapi() {
 	file = nil
 	err = nil
 }
-func uploadDocument(c *gin.Context) error {
+func uploadDocument(c *gin.Context) (error,string){
 	// 上传文件
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -66,8 +78,7 @@ func uploadDocument(c *gin.Context) error {
 			Err:  err,
 			Type: 0,
 			Meta: nil,
-		}
-	}
+		},nil
 	err = os.Mkdir("./USERFILE", 0777)
 	if err != nil {
 		routes.ErrorResponse(c, 500, "创建文件夹失败")
@@ -75,7 +86,7 @@ func uploadDocument(c *gin.Context) error {
 			Err:  err,
 			Type: 0,
 			Meta: nil,
-		}
+		},nil
 	}
 	err = c.SaveUploadedFile(file, "./USERFILE/"+file.Filename)
 	if err != nil {
@@ -84,12 +95,12 @@ func uploadDocument(c *gin.Context) error {
 			Err:  err,
 			Type: 0,
 			Meta: nil,
-		}
+		},nil
 	}
 	routes.SuccessResponse(c, 200, "上传文件成功", gin.H{
 		"filename": file.Filename,
 	})
-	return nil
+	return nil,"./USERFILE"+file.Filename
 }
 
 func uploadMusic(c *gin.Context) error {
