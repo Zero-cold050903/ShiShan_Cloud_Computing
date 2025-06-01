@@ -23,7 +23,7 @@ type Log struct {
 
 func InitLog() (string, error) {
 	homedir := os.Getenv("HOME")
-	err := os.Mkdir(homedir + "/log")
+	err := os.Mkdir(homedir+"/log", 0755)
 	if err != nil {
 		log.Fatal(err)
 		os.WriteFile(homedir+"/log/error.log", []byte(err.Error()), 0644)
@@ -38,5 +38,10 @@ func (l *Log) LogInfo(message string) error {
 	return nil
 }
 func Writer() {
-	os.NewFile(0, "InitLog")
+	LogDir := os.Getenv("HOME") + "/log"
+	os.NewFile(0, LogDir+"/log.txt")
+	currentTime := time.Now()
+	formattedTime := currentTime.Format("2006-01-02 15:04:05")
+	text := formattedTime + ""
+	os.WriteFile(LogDir+"/log.txt", []byte(text), 0644)
 }
